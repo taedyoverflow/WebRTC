@@ -1,0 +1,64 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/yourvoice?serverTimezone=UTC
+    username: 27cm
+    password: 27cm
+    hikari:
+      auto-commit: false
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+  thymeleaf:
+    cache: false
+
+  output:
+    ansi:
+      enabled: always
+
+logging:
+  level:
+    org.springframework: info
+    com.aix2.voice: debug
+    org.hibernate.type.descriptor.sql: debug
+
+server:
+  ssl:
+    enabled: true
+    key-store: classpath:ssl-server.jks
+    key-store-password: test1234
+    key-store-type: JKS
+    keyAlias: selfsigned_localhost_sslserver
+  port: 443
+#  http:
+#    port: 8080
+  error:
+    include-exception: true
+    include-stacktrace: always
+
+security:
+  jwt:
+    secretKey: "s3cr3tK3yV3ryL0nGAndRand0mStr1nsdfwsgfrewgergsdghethgwdfgedbsfgjnfdhjghgffhgnghfjhghdfhghgetrrhnsfeghrfgehgrthgdwsg"
+    accessTokenValidityInMilliseconds: 900000 # 액세스 토큰 만료 시간 (예: 15분)
+    refreshTokenValidityInMilliseconds: 2592000000 # 리프레시 토큰 만료 시간 (예: 30일)
+
+
+
+
+
+
+# secretKey는 여기서 JWT (JSON Web Token)를 안전하게 서명하는 데 사용되는 비밀 키를 의미합니다.
+# 이 키는 로그인 시 사용자의 비밀번호와는 다른 개념입니다. secretKey는 서버 측에서 JWT를 생성하고 검증할 때 사용되며,
+# 토큰의 무결성과 인증을 보장하는 역할을 합니다. 간단하게 말해, secretKey는 서버와 클라이언트 간에 전송되는 토큰이 서버에서 발급된 것이며,
+# 중간에 변조되지 않았음을 증명하는 '디지털 서명'에 사용되는 비밀번호와 유사한 역할을 합니다.
+
+
+# 토큰 서명: 서버는 사용자가 로그인 성공 시 secretKey를 사용해 서명된 JWT를 발급합니다.
+# 이 토큰은 사용자의 인증 정보(예: 사용자 ID, 역할 등)를 안전하게 담고 있으며, 서명을 통해 토큰의 무결성을 보장합니다.
+
+#토큰 검증: 클라이언트로부터 받은 토큰을 서버가 검증할 때 secretKey를 다시 사용합니다. 서버는 이 키로 토큰의 서명을 확인하고, 토큰이 서버에서 발급된 것이며 변조되지 않았음을 검증합니다.
